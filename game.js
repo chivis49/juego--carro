@@ -4,6 +4,7 @@ const ctx = canvas.getContext("2d");
 let player = { x: 175, y: 500, width: 50, height: 100 };
 let obstacles = [];
 let gameOver = false;
+let collidedObstacle = null;
 
 function drawPlayer() {
   ctx.fillStyle = "blue";
@@ -13,7 +14,9 @@ function drawPlayer() {
 function drawObstacles() {
   ctx.fillStyle = "red";
   obstacles.forEach(obs => {
-    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+    if (obs !== collidedObstacle) {
+      ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+    }
   });
 }
 
@@ -35,13 +38,21 @@ function checkCollision() {
       player.y + player.height > obs.y
     ) {
       gameOver = true;
+      collidedObstacle = obs; // Guardamos el obstáculo que chocó
       document.getElementById("game-over").style.display = "block";
     }
   }
 }
 
 function draw() {
-  if (gameOver) return;
+  if (gameOver) {
+    // Detenemos el movimiento y mostramos por última vez
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawPlayer();
+    drawObstacles();
+    return;
+  }
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawPlayer();
   drawObstacles();
@@ -61,6 +72,7 @@ document.addEventListener("keydown", (e) => {
 function restartGame() {
   player.x = 175;
   obstacles = [];
+  collidedObstacle = null;
   gameOver = false;
   document.getElementById("game-over").style.display = "none";
   draw();
