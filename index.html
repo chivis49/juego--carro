@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de Carros</title>
+  <style>
+    canvas { background: #eee; display: block; margin: 0 auto; }
+    #game-over {
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+  <div id="game-over">
+    <h2>Fin del juego</h2>
+    <button onclick="restartGame()">Reiniciar</button>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
